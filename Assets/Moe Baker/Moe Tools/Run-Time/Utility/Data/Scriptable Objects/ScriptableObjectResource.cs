@@ -19,23 +19,23 @@ using Random = UnityEngine.Random;
 
 namespace Moe.Tools
 {
-    public class ResourceSingleton<TObject>
-        where TObject : Object
+    public class ScriptableObjectResource<TObject> : ScriptableObject
+        where TObject : ScriptableObject
     {
-        TObject current;
-        public TObject Current
+        static TObject _instance;
+        public static TObject Instance
         {
             get
             {
-                if (current == null || Application.isPlaying == false)
-                    current = GetCurrent();
+                if (_instance == null || Application.isPlaying == false)
+                    _instance = GetInstance();
 
-                return current;
+                return _instance;
             }
         }
-        public bool AssetValid { get { return Current != null; } }
+        public static bool HasInstance { get { return Instance != null; } }
 
-        public static TObject GetCurrent()
+        public static TObject GetInstance()
         {
             TObject[] objects = Resources.LoadAll<TObject>("");
 
@@ -51,13 +51,4 @@ namespace Moe.Tools
                 return null;
         }
     }
-
-    public class ScriptableObjectResourceSingleton<TObject> : ScriptableObject
-        where TObject : ScriptableObject
-	{
-        protected static ResourceSingleton<TObject> Resource = new ResourceSingleton<TObject>();
-
-        public static TObject Instance { get { return Resource.Current; } }
-        public static bool InstanceAvailable { get { return Resource.AssetValid; } }
-	}
 }

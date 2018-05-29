@@ -22,22 +22,29 @@ namespace Moe.Tools
     {
         public TData Data { get; protected set; }
 
-        public virtual string LabelPrefix { get { return "-UI Template"; } }
-
         public virtual void SetData(TData data)
         {
             this.Data = data;
 
-            gameObject.name = GetLabel(data);
+            gameObject.name = ToString();
         }
 
-        public virtual string GetLabel(TData data)
+        public override string ToString()
         {
-            return GetLabelSuffix(data) + LabelPrefix;
+            return Label.Get(Data);
         }
-        public virtual string GetLabelSuffix(TData data)
+
+        public static class Label
         {
-            return data.ToString();
+            public static string Prefix { get { return "-UI Template"; } }
+
+            public static string Get(TData data)
+            {
+                if (data == null)
+                    return typeof(TData).Name + Prefix;
+                else
+                    return data.ToString() + Prefix;
+            }
         }
     }
 }

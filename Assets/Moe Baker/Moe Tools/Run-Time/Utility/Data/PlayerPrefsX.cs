@@ -21,7 +21,7 @@ using Random = UnityEngine.Random;
 namespace Moe.Tools
 {
     [CreateAssetMenu(menuName = MoeTools.Constants.Paths.Tools + "Player Prefs X")]
-    public class PlayerPrefsX : ScriptableObjectResourceSingleton<PlayerPrefsX>
+    public class PlayerPrefsX : ScriptableObjectResource<PlayerPrefsX>
     {
         [SerializeField]
         protected string fileName = "Player Prefs X.dat";
@@ -51,7 +51,7 @@ namespace Moe.Tools
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void OnGameLoad()
         {
-            if (InstanceAvailable)
+            if (Instance)
                 Instance.Configure();
         }
 
