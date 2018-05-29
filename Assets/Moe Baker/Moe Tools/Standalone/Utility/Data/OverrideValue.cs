@@ -42,13 +42,20 @@ namespace Moe.Tools
         [SerializeField]
         protected TData value;
         public TData Value { get { return value; } }
-        public static TData DefaultValue { get { return default(TData); } }
 
-        public OverrideValue() : this(false, DefaultValue)
+        public virtual TData GetEnabledOrDefault(TData defaultValue)
+        {
+            if (enabled)
+                return value;
+
+            return defaultValue;
+        }
+
+        public OverrideValue() : this(false, default(TData))
         {
 
         }
-        public OverrideValue(bool enabled) : this(enabled, DefaultValue)
+        public OverrideValue(bool enabled) : this(enabled, default(TData))
         {
 
         }
@@ -89,6 +96,12 @@ namespace Moe.Tools
     {
         public StringOverrideValue(string value) : base(value) { }
         public StringOverrideValue(bool enabled, string value) : base(enabled, value) { }
+    }
+
+    [Serializable]
+    public class PlatformOverrideValue : OverrideValue<GameTargetPlatform>
+    {
+
     }
     #endregion
 }

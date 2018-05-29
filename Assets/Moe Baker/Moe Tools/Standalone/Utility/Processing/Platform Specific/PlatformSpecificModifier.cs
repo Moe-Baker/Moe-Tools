@@ -24,8 +24,6 @@ namespace Moe.Tools
         [SerializeField]
         protected PlatformOverrideValue platformOverride;
         public PlatformOverrideValue PlatformOverride { get { return platformOverride; } }
-        [Serializable]
-        public class PlatformOverrideValue : OverrideValue<GameTargetPlatform> { }
 
         public GameTargetPlatform GetCurrentPlatform()
         {

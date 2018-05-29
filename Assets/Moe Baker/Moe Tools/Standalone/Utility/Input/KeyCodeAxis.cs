@@ -32,7 +32,7 @@ namespace Moe.Tools
 
         public int RawValue { get; protected set; }
 
-        public void Update()
+        public void Process()
         {
             if (Input.GetKey(positive))
                 RawValue = 1;

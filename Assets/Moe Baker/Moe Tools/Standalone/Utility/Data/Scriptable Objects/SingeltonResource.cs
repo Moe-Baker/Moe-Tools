@@ -57,7 +57,7 @@ namespace Moe.Tools
 	{
         protected static ResourceSingleton<TObject> Resource = new ResourceSingleton<TObject>();
 
-        public static TObject Current { get { return Resource.Current; } }
-        public static bool AssetValid { get { return Resource.AssetValid; } }
+        public static TObject Instance { get { return Resource.Current; } }
+        public static bool InstanceAvailable { get { return Resource.AssetValid; } }
 	}
 }

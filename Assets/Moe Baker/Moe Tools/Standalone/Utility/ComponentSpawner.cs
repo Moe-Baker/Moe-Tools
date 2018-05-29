@@ -33,7 +33,7 @@ namespace Moe.Tools
         public virtual TComponent Spawn()
         {
             if (prefab == null)
-                throw new NullReferenceException("Prefab Is Null");
+                throw new NullReferenceException(GetType().Name + "'s Prefab Is Null");
 
             bool instantiated = false;
 

@@ -23,33 +23,39 @@ namespace Moe.Tools
 	{
         public static class Platform
         {
-            public static GameTargetPlatform Current
+            static GameTargetPlatform current = Init();
+            public static GameTargetPlatform Current { get { return current; } }
+
+            public static GameTargetPlatform Init()
             {
-                get
-                {
-                    if (PC.IsCurrent)
-                        return GameTargetPlatform.PC;
+                pc = new PCData();
+                mobile = new MobileData();
+                console = new ConsoleData();
+                web = new WebData();
 
-                    else if (Mobile.IsCurrent)
-                        return GameTargetPlatform.Mobile;
-
-                    else if (Console.IsCurrent)
-                        return GameTargetPlatform.Console;
-
-                    else if (web.IsCurrent)
-                        return GameTargetPlatform.Web;
-
+                return GetCurrent();
+            }
+            static GameTargetPlatform GetCurrent()
+            {
+                if (pc.IsCurrent)
+                    return GameTargetPlatform.PC;
+                else if (mobile.IsCurrent)
+                    return GameTargetPlatform.Mobile;
+                else if (console.IsCurrent)
+                    return GameTargetPlatform.Console;
+                else if (web.IsCurrent)
+                    return GameTargetPlatform.Web;
+                else
                     return GameTargetPlatform.Unknown;
-                }
             }
 
-            static PCPlatform _PC = new PCPlatform();
-            public static PCPlatform PC { get { return _PC; } }
-            public class PCPlatform : Data
+            static PCData pc;
+            public static PCData PC { get { return pc; } }
+            public class PCData : Data
             {
-                public PCPlatform()
+                public PCData()
                 {
-                    Platforms = new RuntimePlatform[]
+                    RuntimePlatforms = new RuntimePlatform[]
                     {
                         RuntimePlatform.WindowsEditor,
                         RuntimePlatform.WindowsPlayer,
@@ -63,13 +69,13 @@ namespace Moe.Tools
                 }
             }
 
-            static MobilePlatform mobile = new MobilePlatform();
-            public static MobilePlatform Mobile { get { return mobile; } }
-            public class MobilePlatform : Data
+            static MobileData mobile;
+            public static MobileData Mobile { get { return mobile; } }
+            public class MobileData : Data
             {
-                public MobilePlatform()
+                public MobileData()
                 {
-                    Platforms = new RuntimePlatform[]
+                    RuntimePlatforms = new RuntimePlatform[]
                     {
                         RuntimePlatform.Android,
                         RuntimePlatform.IPhonePlayer,
@@ -79,13 +85,13 @@ namespace Moe.Tools
                 }
             }
 
-            static ConsolePlatform console = new ConsolePlatform();
-            public static ConsolePlatform Console { get { return console; } }
-            public class ConsolePlatform : Data
+            static ConsoleData console;
+            public static ConsoleData Console { get { return console; } }
+            public class ConsoleData : Data
             {
-                public ConsolePlatform()
+                public ConsoleData()
                 {
-                    Platforms = new RuntimePlatform[]
+                    RuntimePlatforms = new RuntimePlatform[]
                     {
                         RuntimePlatform.PS4,
                         RuntimePlatform.XboxOne,
@@ -93,13 +99,13 @@ namespace Moe.Tools
                 }
             }
 
-            static WebPlatform web = new WebPlatform();
-            public static WebPlatform Web { get { return web; } }
-            public class WebPlatform : Data
+            static WebData web;
+            public static WebData Web { get { return web; } }
+            public class WebData : Data
             {
-                public WebPlatform()
+                public WebData()
                 {
-                    Platforms = new RuntimePlatform[]
+                    RuntimePlatforms = new RuntimePlatform[]
                     {
                         RuntimePlatform.WebGLPlayer,
                     };
@@ -111,7 +117,7 @@ namespace Moe.Tools
                 switch (targetPlatform)
                 {
                     case GameTargetPlatform.PC:
-                        return _PC;
+                        return pc;
 
                     case GameTargetPlatform.Mobile:
                         return mobile;
@@ -129,19 +135,19 @@ namespace Moe.Tools
             }
             public static RuntimePlatform[] GetRuntimePlatforms(GameTargetPlatform targetPlatform)
             {
-                return GetData(targetPlatform).Platforms;
+                return GetData(targetPlatform).RuntimePlatforms;
             }
 
             public abstract class Data
             {
-                public bool IsCurrent { get { return CompareToPlatforms(Application.platform); } }
+                public bool IsCurrent { get { return IsRuntimePlatform(Application.platform); } }
 
-                public virtual bool CompareToPlatforms(RuntimePlatform runtimePlatform)
+                public virtual bool IsRuntimePlatform(RuntimePlatform runtimePlatform)
                 {
-                    return Platforms.Contains(runtimePlatform);
+                    return RuntimePlatforms.Contains(runtimePlatform);
                 }
 
-                public RuntimePlatform[] Platforms { get; protected set; }
+                public RuntimePlatform[] RuntimePlatforms { get; protected set; }
             }
         }
     }

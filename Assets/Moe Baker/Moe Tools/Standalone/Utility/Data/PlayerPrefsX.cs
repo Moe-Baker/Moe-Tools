@@ -51,8 +51,8 @@ namespace Moe.Tools
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void OnGameLoad()
         {
-            if (AssetValid)
-                Current.Configure();
+            if (InstanceAvailable)
+                Instance.Configure();
         }
 
         protected virtual void Configure()
