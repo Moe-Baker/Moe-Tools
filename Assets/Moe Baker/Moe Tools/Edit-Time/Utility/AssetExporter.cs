@@ -20,7 +20,7 @@ using Random = UnityEngine.Random;
 
 namespace Moe.Tools
 {
-    [CreateAssetMenu(menuName = MoeTools.Constants.Paths.Tools + "Moe Tools Exporter")]
+    [CreateAssetMenu(menuName = MoeTools.Constants.Paths.Tools + "Asset Exporter")]
 	public class AssetExporter : ScriptableObject
 	{
 		[SerializeField]
